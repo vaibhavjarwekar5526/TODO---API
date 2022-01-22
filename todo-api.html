@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #store div{
+            border: 2px solid black;
+            padding: 0px 5px;
+            width: 22vh;
+            margin-bottom: 5px;
+        }
+        #store p{
+            font-size: 20px;
+            color: red;
+            text-align: center;
+
+        }
+        form{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form>
+            <input type="text" id="val"/>
+            <input type="checkbox" id="check" checked/><br/><br/>
+            <input type="submit" value="ADD" id="submit"/>
+        </form>
+        <div id="store">
+
+        </div>
+    </div>
+</body>
+<script>
+    var url = "https://json-server-mocker-masai.herokuapp.com/tasks";
+
+    fetch(url)
+    .then(function(res){
+        console.log('res:', res)
+
+        return res.json()
+    })
+    .then(function(res){
+        var data = JSON.stringify(res);
+        localStorage.setItem('user-data', data);
+        console.log('data:', data)
+
+        var mydata = localStorage.getItem('user-data')
+        mydata=JSON.parse(mydata);
+        console.log('myadata:',mydata);
+    })
+    .catch(function(err){
+        console.log('err:', err)
+    })
+
+    document.querySelector("#submit").addEventListener("click", execute);
+
+    function execute(event){
+        event.preventDefault();
+        var value = document.querySelector("#val").value;
+
+        var div = document.createElement('div');
+
+        var p = document.createElement('p');
+        p.textContent = value;
+        div.append(p);
+
+        var checkbox = document.getElementById("check").value;
+
+
+        var main_div = document.getElementById("store");
+        main_div.append(div)
+
+    }
+</script>
+</html>
